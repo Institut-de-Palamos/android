@@ -739,7 +739,7 @@ println(preus["Motxilla"]) // 25.0
 
 Les funcions d'abast executen una lambda dins del context d'un objecte. Són útils per agrupar operacions relacionades i fer el codi més llegible. Les cinc funcions principals són `let`, `run`, `with`, `apply` i `also`.
 
-- **`let`**: utilitza `it` per referir-se a l'objecte i retorna el resultat de la lambda. És útil per transformar valors o treballar amb valors nul·lables.
+- **`let`**: utilitza `it` per referir-se a l'objecte i retorna el resultat de la lambda. És útil per transformar valors o treballar amb valors nuls.
 - **`run`**: utilitza `this` dins de la lambda i retorna el seu resultat.
 - **`with`**: rep l'objecte com a argument, utilitza `this` dins de la lambda i retorna el seu resultat.
 - **`apply`**: utilitza `this` i retorna el mateix objecte. És útil per configurar-lo.
