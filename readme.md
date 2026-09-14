@@ -352,7 +352,7 @@ Per defecte, en Kotlin les variables no poden contenir valors nuls (`null`) per 
 ```kotlin
 fun main() {
     // Declaració d'una variable nul·lable
-    var nomPersona: String? = "Sebastià"
+    var nomPersona: String? = "Pau"
     nomPersona = null // Permès gràcies al tipus String?
 
     // Opció 1: Safe Call Operator (?.)
