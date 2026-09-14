@@ -15,6 +15,17 @@ Per començar a programar en Kotlin es pot utilitzar l'entorn de desenvolupament
 sudo apt install kotlin
 ```
 
+compilar:
+```bash
+kotlinc programa.kt -d output.jar
+```
+
+Fer córrer:
+```bash
+java -jar output.jar
+```
+
+
 ### Primer programa
 
 Igual que en altres llenguatges com Java o C++, l'execució del programa comença a la funció principal `main`.
@@ -286,59 +297,219 @@ fun main() {
 
 Kotlin permet definir l'estructura de classes directament al codi. No cal utilitzar la paraula reservada `new` per instanciar objectes.
 
-### Classes, Constructors i Getters/Setters
+### Declaració bàsica
 
-- **Constructor Principal**: Es declara directament a la capçalera de la classe.
-- **Visibilitat**: En Kotlin tot és `public` per defecte. S'utilitza `private` només per a variables d'ús intern de la classe.
-- **Setters personalitzats**: Utilitzen les paraules clau `value` (el valor que arriba) i `field` (el camp actual de la memòria).
+Les classes es declaren amb la paraula reservada `class`. Kotlin té una sintaxi compacta i permet declarar el constructor principal directament a la capçalera.
 
 ```kotlin
-// Classe amb constructor principal i regla de negoci en un setter
-open class Persona(val nom: String = "Desconegut", edatParam: Int) {
-    
-    // Setter personalitzat per validar que la meva edat sigui major que zero
-    var edat: Int = edatParam
+class Persona(nom: String, edat: Int)
+```
+
+Quan un paràmetre del constructor porta `val` o `var`, es converteix automàticament en una propietat de la classe. Sense `val` o `var`, només es pot utilitzar durant la inicialització.
+
+```kotlin
+class Persona(val nom: String, var edat: Int) {
+    // 'val' i 'var' creen propietats automàticament
+}
+```
+
+Els objectes s'instancien sense utilitzar la paraula reservada `new`:
+
+```kotlin
+val persona = Persona("Joan", 26)
+println(persona.nom)
+```
+
+### Constructors
+
+#### Constructor principal
+
+És el constructor que apareix a la capçalera de la classe:
+
+```kotlin
+class Cotxe(val marca: String, var any: Int)
+```
+
+#### Constructor secundari
+
+S'escriu amb la paraula `constructor`. Si la classe té un constructor principal, el constructor secundari l'ha de cridar amb `this`:
+
+```kotlin
+class Cotxe {
+    val marca: String
+    var any: Int
+
+    constructor(marca: String, any: Int) {
+        this.marca = marca
+        this.any = any
+    }
+}
+```
+
+#### Bloc `init`
+
+El bloc `init` s'executa automàticament quan es crea l'objecte, després d'inicialitzar els paràmetres i les propietats del constructor principal. És útil per executar validacions o altres accions d'inicialització.
+
+```kotlin
+class Usuari(val nom: String) {
+    init {
+        println("Usuari creat: $nom")
+    }
+}
+```
+
+### Getters i setters personalitzats
+
+Kotlin genera automàticament el getter i el setter de les propietats. Es poden personalitzar amb `get` i `set`. Dins d'un setter, `value` és el valor rebut i `field` és el valor emmagatzemat internament.
+
+```kotlin
+class Persona(val nom: String, edatInicial: Int) {
+    var edat: Int = edatInicial
         set(value) {
-            if (value > 0) {
-                field = value
-            } else {
-                field = 0
-            }
+            field = if (value > 0) value else 0
         }
-
-    var altura: Int = 170 // Atribut amb valor per defecte
-
-    // Constructor secundari: ha d'estendre del constructor principal usant 'this'
-    constructor(nom: String, edat: Int, altura: Int) : this(nom, edat) {
-        this.altura = altura
-    }
-
-    // Per permetre que un mètode es pugui sobreescriure, ha de portar la paraula 'open'
-    open fun saludar() {
-        println("Em dic $nom i tinc $edat anys")
-    }
 }
 ```
 
 ### Herència
 
-Per defecte, les classes en Kotlin són tancades (`final`). Per poder heretar d'una classe, aquesta s'ha de marcar explícitament amb la paraula reservada `open`.
+Per defecte, les classes de Kotlin són `final`, és a dir, no es poden heretar. Cal marcar la classe pare amb `open`. Els mètodes que es vulguin sobreescriure també han de ser `open`.
 
 ```kotlin
-// La classe Treballador hereta de Persona
+open class Animal(val nom: String) {
+    open fun so() = "..."
+}
+
+class Gos(nom: String) : Animal(nom) {
+    override fun so() = "Bup bup!"
+}
+```
+
+- **`open`**: permet heretar una classe o sobreescriure un membre.
+- **`override`**: indica que es redefineix un membre de la classe pare.
+- **`super`**: permet cridar la implementació de la classe pare.
+
+```kotlin
+class Gat(nom: String) : Animal(nom) {
+    override fun so(): String {
+        return "Mèu!"
+    }
+}
+```
+
+### Modificadors de visibilitat
+
+| Modificador | Significat |
+| --- | --- |
+| `public` | Visible des de qualsevol lloc. És el valor per defecte. |
+| `private` | Visible només dins de la classe o del fitxer si és una declaració top-level. |
+| `protected` | Visible dins de la classe i de les seves subclasses. |
+| `internal` | Visible dins del mateix mòdul. |
+
+#### Quan fer servir `private`?
+
+S'utilitza quan una propietat o funció és un detall intern i no s'ha de poder modificar directament des de fora:
+
+```kotlin
+class CompteBancari {
+    private var saldo: Double = 0.0
+
+    fun ingressar(quantitat: Double) {
+        saldo += quantitat
+    }
+
+    fun consultarSaldo() = saldo
+}
+```
+
+#### Quan fer servir `protected`?
+
+Permet que les subclasses accedeixin a una propietat sense exposar-la al codi exterior:
+
+```kotlin
+open class Figura {
+    protected var color: String = "negre"
+}
+
+class Cercle : Figura() {
+    fun pintar() {
+        color = "vermell"
+    }
+}
+```
+
+`internal` és útil per compartir codi dins d'un mateix mòdul, com ara una llibreria, sense exposar-lo com a API pública.
+
+### Altres modificadors i tipus de classe
+
+- **`abstract`**: classe o membre sense implementació; les subclasses l'han de definir.
+
+```kotlin
+abstract class Forma {
+    abstract fun area(): Double
+}
+```
+
+- **`sealed`**: defineix una jerarquia tancada de classes, molt útil amb `when`.
+
+```kotlin
+sealed class Resultat
+class Exit(val dades: String) : Resultat()
+class Error(val missatge: String) : Resultat()
+```
+
+- **`data class`**: genera automàticament `equals`, `hashCode`, `toString` i `copy`.
+
+```kotlin
+data class Punt(val x: Int, val y: Int)
+```
+
+- **`object`**: crea una única instància, és a dir, un singleton.
+
+```kotlin
+object Configuracio {
+    val versio = "1.0"
+}
+```
+
+- **`companion object`**: permet definir membres associats a una classe, amb un ús semblant als membres `static` de Java.
+
+```kotlin
+class Utils {
+    companion object {
+        fun suma(a: Int, b: Int) = a + b
+    }
+}
+
+Utils.suma(2, 3)
+```
+
+### Exemple complet d'herència
+
+```kotlin
+// Classe pare amb una funció que es pot sobreescriure
+open class Persona(val nom: String, edatInicial: Int) {
+    var edat: Int = edatInicial
+        set(value) {
+            field = if (value > 0) value else 0
+        }
+
+    open fun saludar() {
+        println("Em dic $nom i tinc $edat anys")
+    }
+}
+
 class Treballador(
     nom: String,
     edat: Int,
     val feina: String,
     val salari: Double
 ) : Persona(nom, edat) {
-
     var estalvi: Double = 0.0
 
-    // Sobreescriptura del mètode saludar usant 'override'
     override fun saludar() {
-        super.saludar() // Crida al mètode de la classe pare
-        println("L'estalvi és de $estalvi")
+        super.saludar()
+        println("Treballo de $feina")
     }
 
     fun treballar() {
@@ -347,11 +518,10 @@ class Treballador(
 }
 
 fun main() {
-    // Instanciació d'objectes sense la paraula 'new'
     val treballador = Treballador("Diego", 26, "Desenvolupador", 3000.0)
     treballador.saludar()
     treballador.treballar()
-    treballador.saludar() // L'estalvi augmenta a 3000.0
+    println("Estalvi: ${treballador.estalvi}")
 }
 ```
 
