@@ -25,5 +25,5 @@ Després, al main, crea una mascota, fes-li unes quantes accions i mostra el seu
 ---
 # -> Feina a lliurar
 Escull com a mínim un dels tres exercicis i puja'ls al classroom50 via git.
-    + Anomeneu cada exercici com a ex1.kt ...
-    + Si feu més d'un exercici, pujeu un fitxer per cadascú.
++ Anomeneu cada exercici com a ex1.kt ...
++ Si feu més d'un exercici, pujeu un fitxer per cadascú.
