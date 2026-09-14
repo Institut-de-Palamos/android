@@ -1,9 +1,9 @@
 # Exercici 1: Endevina el número
-**Enunciat**: El programa pensa un número de l'1 al 100. L'usuari ha d'endevinar-lo. El programa diu "massa alt" o "massa baix" fins que l'encerta, i compta quants intents ha necessitat.
+El programa pensa un número de l'1 al 100. L'usuari ha d'endevinar-lo. El programa diu "massa alt" o "massa baix" fins que l'encerta, i compta quants intents ha necessitat.
 
 
 # Exercici 2. Comprovador de nombres primers
-**Enunciat**: Escriu una funció que rebi un nombre enter positiu i retorni `true` si és primer i `false` si no ho és. Després, fes un bucle que mostri tots els primers entre 1 i 50.
+Escriu una funció que rebi un nombre enter positiu i retorni `true` si és primer i `false` si no ho és. Després, fes un bucle que mostri tots els primers entre 1 i 50.
 
 
 # Exercici 3. Tamagotchi
