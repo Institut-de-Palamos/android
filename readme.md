@@ -216,6 +216,87 @@ fun main() {
 }
 ```
 
+### Bucle `for`
+
+El bucle `for` permet repetir un bloc de codi recorrent rangs, col·leccions o mapes. La variable del bucle pren el valor de cada element en cada iteració.
+
+#### Recórrer un rang
+
+L'operador `..` crea un rang inclusiu, és a dir, inclou tant el primer com l'últim valor:
+
+```kotlin
+for (numero in 1..5) {
+    println(numero) // 1, 2, 3, 4, 5
+}
+```
+
+#### Recórrer una col·lecció
+
+També es poden recórrer els elements d'una llista o d'un conjunt directament:
+
+```kotlin
+val noms = listOf("Anna", "Pau", "Joan")
+
+for (nom in noms) {
+    println(nom)
+}
+```
+
+#### Recórrer amb índex
+
+`indices` permet obtenir els índexs d'una llista. Amb `withIndex()` s'obtenen alhora l'índex i el valor:
+
+```kotlin
+val fruites = listOf("Poma", "Plàtan", "Taronja")
+
+for (index in fruites.indices) {
+    println("$index: ${fruites[index]}")
+}
+
+for ((index, fruita) in fruites.withIndex()) {
+    println("$index: $fruita")
+}
+```
+
+#### Recórrer en ordre invers o saltant valors
+
+`downTo` recorre els valors de més gran a més petit, mentre que `step` permet indicar l'increment:
+
+```kotlin
+for (numero in 5 downTo 1) {
+    println(numero) // 5, 4, 3, 2, 1
+}
+
+for (numero in 0..10 step 2) {
+    println(numero) // 0, 2, 4, 6, 8, 10
+}
+```
+
+#### Recórrer un mapa
+
+En un `Map`, es poden obtenir la clau i el valor directament:
+
+```kotlin
+val edats = mapOf("Anna" to 20, "Pau" to 22)
+
+for ((nom, edat) in edats) {
+    println("$nom té $edat anys")
+}
+```
+
+#### `break` i `continue`
+
+- **`break`**: atura completament el bucle.
+- **`continue`**: salta a la iteració següent.
+
+```kotlin
+for (numero in 1..10) {
+    if (numero == 3) continue
+    if (numero == 7) break
+    println(numero) // 1, 2, 4, 5, 6
+}
+```
+
 ### `if` i `when` com a Expressions
 
 En Kotlin, `if` i `when` poden retornar un valor directament per assignar-lo a una variable. La darrera línia de cada bloc és la que es guarda a la variable.
