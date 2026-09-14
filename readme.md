@@ -632,7 +632,7 @@ En Kotlin, les funcions es poden tractar com a variables i passar-se com a parà
 
 ```kotlin
 // Funció tradicional
-fun mostrarNumero(numero: Int) {
+fun mostraNombre(numero: Int) {
     println("El número és $numero")
 }
 
@@ -643,7 +643,7 @@ fun operacioMatematica(a: Int, b: Int, operacio: (Int, Int) -> Int): Int {
 
 fun main() {
     // Assignar una funció existent a una variable usant l'operador ::
-    val funcioMostrarNumero = ::mostrarNumero
+    val funcioMostrarNumero = ::mostraNombre
     funcioMostrarNumero(3)
 
     // Declaració d'una expressió Lambda directament
@@ -667,14 +667,12 @@ fun main() {
 #### 1. Botó d'Interfície d'Usuari
 
 ```kotlin
-class Boto(val nom: String, val accioClic: () -> Unit)
+class Boto(val nom: String, val onClick: () -> Unit)
 
 fun main() {
     // En lloc de crear múltiples funcions, es defineix la lambda directament al botó
-    val botoComiat = Boto("Adeu") {
-        println("Adeu")
-    }
-    botoComiat.accioClic()
+    val botoComiat = Boto("Botó adeu", {println("Adeu")})
+    botoComiat.onClick()
 }
 ```
 
@@ -697,7 +695,7 @@ fun main() {
 
     // Cerca de l'element màxim amb maxBy / maxByOrNull
     val millorMitjana = llistaEstudiants.maxBy { it.mitjana }
-    println("La mitjana més alta és ${millorMitjana.mitjana}")
+    println("La mitjana més alta és ${millorMitjana?.mitjana}")
 }
 ```
 
